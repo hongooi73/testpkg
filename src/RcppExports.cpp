@@ -22,8 +22,11 @@ BEGIN_RCPP
 END_RCPP
 }
 
+RcppExport SEXP _rcpp_module_boot_RTestClassModule();
+
 static const R_CallMethodDef CallEntries[] = {
     {"_testpkg_convdate", (DL_FUNC) &_testpkg_convdate, 1},
+    {"_rcpp_module_boot_RTestClassModule", (DL_FUNC) &_rcpp_module_boot_RTestClassModule, 0},
     {NULL, NULL, 0}
 };
 
