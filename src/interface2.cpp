@@ -93,5 +93,6 @@ RCPP_MODULE(RTestClassModule)
 
     .constructor<SEXP, int, double>()
     
-    .method("func1", &RTestClass::func1, "func1");
+    .method("func1", &TestClass::func1, "func1");
+}
 }
