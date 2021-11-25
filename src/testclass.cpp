@@ -2,6 +2,8 @@
 #include <cmath>
 #include <boost/date_time/gregorian/gregorian_types.hpp>
 
+#include "testclass.h"
+
 using namespace boost::gregorian;
 
 namespace testpkg
@@ -10,32 +12,32 @@ namespace testpkg
         : refdate(refdate), n(n), x(x)
     {}
 
-    const date& get_refdate() const
+    const date& TestClass::get_refdate() const
     {
         return refdate;
     }
 
-    const int get_n() const
+    const int TestClass::get_n() const
     {
         return n;
-    };
+    }
 
-    const double get_x() const
+    const double TestClass::get_x() const
     {
         return x;
-    };
+    }
 
-    int func1(int m) const
+    int TestClass::func1(int m) const
     {
         return n * m;
     }
 
-    double func2(double y) const
+    double TestClass::func2(double y) const
     {
         return x * y;
     }
 
-    double bigfunc(
+    double TestClass::bigfunc(
         double a1,
         double a2,
         double a3,

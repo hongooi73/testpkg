@@ -2,7 +2,7 @@ Package: testpkg
 Title: Test package for Rcpp complexities
 Version: 0.0.0.9000
 Authors@R: 
-    person("Hong", , "Ooi", role = c("aut", "cre"), email="hongooi73@gmail.com")
+    person(given="Hong", family="Ooi", role=c("aut", "cre"), email="hongooi73@gmail.com")
 Description: What the package does (one paragraph).
 License: file LICENSE
 Imports: Rcpp

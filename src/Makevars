@@ -1,0 +1,2 @@
+PKG_CXXFLAGS = -D__RcppExports__ -pedantic -Wno-deprecated-declarations -Wno-parentheses -Wno-ignored-attributes
+CXX_STD = CXX14
