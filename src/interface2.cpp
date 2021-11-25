@@ -8,6 +8,7 @@ using namespace Rcpp;
 
 namespace testpkg
 {
+
 //structs for organising big argument lists
 struct Argset1
 {
@@ -46,53 +47,34 @@ struct Argset3
     double a25;
 };
 
-class RTestClass : public TestClass
+class ITestClass
 {
 public:
-
-    RTestClass(SEXP in_date, int const& in_n, double const& in_x)
-        : TestClass(as_boost_date(in_date), in_n, in_x)
+    ITestClass(SEXP in_date, int const& in_n, double const& in_x)
+        : impl(as_boost_date(in_date), in_n, in_x)
     {}
 
-    // double do_bigfunc(Argset1 argset1, Argset2 argset2, Argset3 argset3)
-    // {
-    //     return bigfunc(
-    //         argset1.a1,
-    //         argset1.a2,
-    //         argset1.a3,
-    //         argset1.a4,
-    //         argset1.a5,
-    //         argset1.a6,
-    //         argset1.a7,
-    //         argset1.a8,
-    //         argset1.a9,
-    //         argset1.a10,
-    //         argset2.a11,
-    //         argset2.a12,
-    //         argset2.a13,
-    //         argset2.a14,
-    //         argset2.a15,
-    //         argset2.a16,
-    //         argset2.a17,
-    //         argset2.a18,
-    //         argset2.a19,
-    //         argset2.a20,
-    //         argset3.a21,
-    //         argset3.a22,
-    //         argset3.a23,
-    //         argset3.a24,
-    //         argset3.a25
-    //     );
-    // }
+    int func1(int m)
+    {
+        return impl.func1(m);
+    }
+
+    double func2(double y)
+    {
+        return impl.func2(y);
+    }
+
+private:
+    TestClass impl;
 
 };
 
 RCPP_MODULE(RTestClassModule)
 {
-    class_<RTestClass>("RTestClass")
-
-    .constructor<SEXP, int, double>()
-    
-    .method("func1", &TestClass::func1, "func1");
+    class_<ITestClass>("ITestClass")
+        .constructor<SEXP, int, double>()
+        .method("func1", &ITestClass::func1, "func1")
+        .method("func2", &ITestClass::func2, "func2");
 }
+
 }
