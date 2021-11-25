@@ -1,14 +1,44 @@
 #include <Rcpp.h>
-#include <boost/date_time/gregorian/gregorian_types.hpp>
+#include "testclass.h"
 #include "dateconv.h"
 
 // [[Rcpp::depends(BH)]]
 
-// [[Rcpp::export]]
-Rcpp::Date convdate(SEXP indate)
+using namespace Rcpp;
+
+namespace testpkg
 {
-    boost::gregorian::date bdate = as_boost_date(indate);
-    Rcpp::Date outdate = as_rcpp_date(bdate);
-    return outdate;
+
+class ITestClass
+{
+public:
+    ITestClass(SEXP in_date, int const& in_n, double const& in_x)
+        : impl(as_boost_date(in_date), in_n, in_x)
+    {}
+
+    int func1(int m)
+    {
+        return impl.func1(m);
+    }
+
+    double func2(double y)
+    {
+        return impl.func2(y);
+    }
+
+    // we don't have to implement any interfaces that shouldn't be exposed
+    // double bigfunc() {}
+
+private:
+    TestClass impl;
+};
+
+RCPP_MODULE(RTestClassModule)
+{
+    class_<ITestClass>("ITestClass")
+        .constructor<SEXP, int, double>()
+        .method("func1", &ITestClass::func1, "func1")
+        .method("func2", &ITestClass::func2, "func2");
 }
 
+}

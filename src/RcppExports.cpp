@@ -10,22 +10,10 @@ Rcpp::Rostream<true>&  Rcpp::Rcout = Rcpp::Rcpp_cout_get();
 Rcpp::Rostream<false>& Rcpp::Rcerr = Rcpp::Rcpp_cerr_get();
 #endif
 
-// convdate
-Rcpp::Date convdate(SEXP indate);
-RcppExport SEXP _testpkg_convdate(SEXP indateSEXP) {
-BEGIN_RCPP
-    Rcpp::RObject rcpp_result_gen;
-    Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< SEXP >::type indate(indateSEXP);
-    rcpp_result_gen = Rcpp::wrap(convdate(indate));
-    return rcpp_result_gen;
-END_RCPP
-}
 
 RcppExport SEXP _rcpp_module_boot_RTestClassModule();
 
 static const R_CallMethodDef CallEntries[] = {
-    {"_testpkg_convdate", (DL_FUNC) &_testpkg_convdate, 1},
     {"_rcpp_module_boot_RTestClassModule", (DL_FUNC) &_rcpp_module_boot_RTestClassModule, 0},
     {NULL, NULL, 0}
 };
