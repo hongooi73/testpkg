@@ -9,44 +9,6 @@ using namespace Rcpp;
 namespace testpkg
 {
 
-//structs for organising big argument lists
-struct Argset1
-{
-    double a1;
-    double a2;
-    double a3;
-    double a4;
-    double a5;
-    double a6;
-    double a7;
-    double a8;
-    double a9;
-    double a10;
-};
-
-struct Argset2
-{
-    double a11;
-    double a12;
-    double a13;
-    double a14;
-    double a15;
-    double a16;
-    double a17;
-    double a18;
-    double a19;
-    double a20;
-};
-
-struct Argset3
-{
-    double a21;
-    double a22;
-    double a23;
-    double a24;
-    double a25;
-};
-
 class ITestClass
 {
 public:
@@ -64,9 +26,11 @@ public:
         return impl.func2(y);
     }
 
+    // we don't have to implement any interfaces that shouldn't be exposed
+    // double bigfunc() {}
+
 private:
     TestClass impl;
-
 };
 
 RCPP_MODULE(RTestClassModule)
