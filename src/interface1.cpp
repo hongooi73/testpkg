@@ -52,6 +52,9 @@ RCPP_MODULE(RTestClassModule)
 {
     class_<ITestClass>("ITestClass")
         .constructor<SEXP, int, double>()
+        .method("get_refdate", &ITestClass::get_refdate, "get_refdate")
+        .method("get_n", &ITestClass::get_n, "get_n")
+        .method("get_x", &ITestClass::get_x, "get_x")
         .method("func1", &ITestClass::func1, "func1")
         .method("func2", &ITestClass::func2, "func2");
 }
