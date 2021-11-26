@@ -1,3 +1,4 @@
+#include <memory>
 #include <Rcpp.h>
 #include "testclass.h"
 #include "dateconv.h"
@@ -74,6 +75,14 @@ public:
     Rcpp::XPtr<TestClass> get_object()
     {
         Rcpp::XPtr<TestClass> ptr(&impl);
+        return ptr;
+    }
+
+protected:
+    // for internal communication in C++
+    std::shared_ptr<TestClass> get_object_ptr()
+    {
+        std::shared_ptr<TestClass> ptr(&impl);
         return ptr;
     }
 
