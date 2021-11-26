@@ -71,6 +71,12 @@ public:
         );
     }
 
+    Rcpp::XPtr<TestClass> get_object()
+    {
+        Rcpp::XPtr<TestClass> ptr(&impl);
+        return ptr;
+    }
+
 private:
     TestClass impl;
 };
@@ -83,7 +89,8 @@ RCPP_MODULE(RTestClassModule)
         .method("get_n", &ITestClass::get_n, "get_n")
         .method("get_x", &ITestClass::get_x, "get_x")
         .method("func1", &ITestClass::func1, "func1")
-        .method("bigfunc", &ITestClass::bigfunc, "bigfunc");
+        .method("bigfunc", &ITestClass::bigfunc, "bigfunc")
+        .method("get_object", &ITestClass::get_object, "get_object");
 }
 
 }

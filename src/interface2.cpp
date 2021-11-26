@@ -38,6 +38,13 @@ public:
         return impl->func1(m);
     }
 
+    // this might run into garbage collection issues
+    Rcpp::XPtr<TestClass> get_object()
+    {
+        Rcpp::XPtr<TestClass> ptr(impl.get(), true);
+        return ptr;
+    }
+
 private:
     std::shared_ptr<TestClass> impl;
 };
@@ -49,7 +56,8 @@ RCPP_MODULE(RTestClassModule2)
         .method("get_refdate", &ITestClass2::get_refdate, "get_refdate")
         .method("get_n", &ITestClass2::get_n, "get_n")
         .method("get_x", &ITestClass2::get_x, "get_x")
-        .method("func1", &ITestClass2::func1, "func1");
+        .method("func1", &ITestClass2::func1, "func1")
+        .method("get_object", &ITestClass2::get_object, "get_object");
 }
 
 }
