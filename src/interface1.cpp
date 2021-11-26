@@ -16,6 +16,21 @@ public:
         : impl(as_boost_date(in_date), in_n, in_x)
     {}
 
+    Date get_refdate()
+    {
+        return as_rcpp_date(impl.get_refdate());
+    }
+
+    int get_n()
+    {
+        return impl.get_n();
+    }
+
+    double get_x()
+    {
+        return impl.get_x();
+    }
+
     int func1(int m)
     {
         return impl.func1(m);
