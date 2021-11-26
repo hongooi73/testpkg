@@ -36,13 +36,39 @@ public:
         return impl.func1(m);
     }
 
-    double func2(double y)
-    {
-        return impl.func2(y);
-    }
+    // we don't have to add any interfaces that shouldn't be exposed
+    // double func2(double y) {}
 
-    // we don't have to implement any interfaces that shouldn't be exposed
-    // double bigfunc() {}
+    double bigfunc(List argset1, List argset2, double a21, double a22, double a23, double a24, double a25)
+    {
+        return impl.bigfunc(
+            argset1["a1"],
+            argset1["a2"],
+            argset1["a3"],
+            argset1["a4"],
+            argset1["a5"],
+            argset1["a6"],
+            argset1["a7"],
+            argset1["a8"],
+            argset1["a9"],
+            argset1["a10"],
+            argset2["a11"],
+            argset2["a12"],
+            argset2["a13"],
+            argset2["a14"],
+            argset2["a15"],
+            argset2["a16"],
+            argset2["a17"],
+            argset2["a18"],
+            argset2["a19"],
+            argset2["a20"],
+            a21,
+            a22,
+            a23,
+            a24,
+            a25
+        );
+    }
 
 private:
     TestClass impl;
@@ -56,7 +82,7 @@ RCPP_MODULE(RTestClassModule)
         .method("get_n", &ITestClass::get_n, "get_n")
         .method("get_x", &ITestClass::get_x, "get_x")
         .method("func1", &ITestClass::func1, "func1")
-        .method("func2", &ITestClass::func2, "func2");
+        .method("bigfunc", &ITestClass::bigfunc, "bigfunc");
 }
 
 }
