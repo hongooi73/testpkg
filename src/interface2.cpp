@@ -10,6 +10,7 @@ using namespace Rcpp;
 namespace testpkg
 {
 
+//' @export ITestClass2
 class ITestClass2
 {
 public:
