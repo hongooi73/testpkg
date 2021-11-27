@@ -38,11 +38,22 @@ public:
         return impl->func1(m);
     }
 
+    double combine(ITestClass2 obj)
+    {
+        return impl->combine(obj.get_object_ptr());
+    }
+
     // this might run into garbage collection issues
     Rcpp::XPtr<TestClass> get_object()
     {
         Rcpp::XPtr<TestClass> ptr(impl.get(), true);
         return ptr;
+    }
+
+protected:
+    std::shared_ptr<TestClass> get_object_ptr()
+    {
+        return impl;
     }
 
 private:
@@ -57,6 +68,7 @@ RCPP_MODULE(RTestClassModule2)
         .method("get_n", &ITestClass2::get_n, "get_n")
         .method("get_x", &ITestClass2::get_x, "get_x")
         .method("func1", &ITestClass2::func1, "func1")
+//        .method("combine", &ITestClass2::combine, "combine")
         .method("get_object", &ITestClass2::get_object, "get_object");
 }
 
