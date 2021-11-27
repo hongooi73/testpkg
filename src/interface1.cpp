@@ -72,6 +72,11 @@ public:
         );
     }
 
+    double combine(ITestClass obj)
+    {
+        return impl.combine(obj.get_object_ptr());
+    }
+
     Rcpp::XPtr<TestClass> get_object()
     {
         Rcpp::XPtr<TestClass> ptr(&impl);
@@ -99,6 +104,7 @@ RCPP_MODULE(RTestClassModule)
         .method("get_x", &ITestClass::get_x, "get_x")
         .method("func1", &ITestClass::func1, "func1")
         .method("bigfunc", &ITestClass::bigfunc, "bigfunc")
+//        .method("combine", &ITestClass::combine, "combine")
         .method("get_object", &ITestClass::get_object, "get_object");
 }
 

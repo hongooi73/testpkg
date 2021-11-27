@@ -49,6 +49,8 @@ public:
         double a25
     ) const;
 
+    double combine(std::shared_ptr<TestClass> obj) const;
+
 protected:
     date refdate;
     int n;
