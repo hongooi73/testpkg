@@ -72,15 +72,16 @@ public:
         );
     }
 
-    double combine(ITestClass obj)
+    double combine(SEXP obj)
     {
-        return impl.combine(obj.get_object_ptr());
+        TestClass* ptr = (TestClass*) R_ExternalPtrAddr(obj);
+        std::shared_ptr<TestClass> sptr(ptr);
+        return impl.combine(sptr);
     }
 
     Rcpp::XPtr<TestClass> get_object()
     {
-        Rcpp::XPtr<TestClass> ptr(&impl);
-        return ptr;
+        return Rcpp::XPtr<TestClass>(&impl);
     }
 
 protected:
@@ -104,8 +105,9 @@ RCPP_MODULE(RTestClassModule)
         .method("get_x", &ITestClass::get_x, "get_x")
         .method("func1", &ITestClass::func1, "func1")
         .method("bigfunc", &ITestClass::bigfunc, "bigfunc")
-//        .method("combine", &ITestClass::combine, "combine")
-        .method("get_object", &ITestClass::get_object, "get_object");
+        .method("combine", &ITestClass::combine, "combine")
+        .method("get_object", &ITestClass::get_object, "get_object")
+    ;
 }
 
 }
