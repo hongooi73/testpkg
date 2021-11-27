@@ -72,6 +72,7 @@ public:
         );
     }
 
+    // this breaks because the shared ptr destroys the passed-in object's impl after 1 use
     double combine(SEXP obj)
     {
         TestClass* ptr = (TestClass*) R_ExternalPtrAddr(obj);

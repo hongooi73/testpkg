@@ -38,9 +38,11 @@ public:
         return impl->func1(m);
     }
 
-    double combine(ITestClass2 obj)
+    double combine(SEXP obj)
     {
-        return impl->combine(obj.get_object_ptr());
+        TestClass* ptr = (TestClass*) R_ExternalPtrAddr(obj);
+        std::shared_ptr<TestClass> sptr(ptr);
+        return impl->combine(sptr);
     }
 
     // this might run into garbage collection issues
@@ -68,7 +70,7 @@ RCPP_MODULE(RTestClassModule2)
         .method("get_n", &ITestClass2::get_n, "get_n")
         .method("get_x", &ITestClass2::get_x, "get_x")
         .method("func1", &ITestClass2::func1, "func1")
-//        .method("combine", &ITestClass2::combine, "combine")
+        .method("combine", &ITestClass2::combine, "combine")
         .method("get_object", &ITestClass2::get_object, "get_object");
 }
 
