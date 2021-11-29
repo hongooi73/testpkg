@@ -7,10 +7,10 @@
 
 using namespace Rcpp;
 
-static void null_finalizer(SEXP x)
-{
-    return;
-}
+// static void null_finalizer(SEXP x)
+// {
+//     return;
+// }
 
 namespace testpkg
 {
@@ -43,20 +43,21 @@ public:
         return impl->func1(m);
     }
 
-    double combine(SEXP obj)
+    double combine(Environment obj)
     {
-        std::shared_ptr<TestClass>* ptr = (std::shared_ptr<TestClass>*) R_ExternalPtrAddr(obj);
-        return impl->combine(*ptr);
+        SEXP objptr = obj[".pointer"];
+        ITestClass2* ptr = (ITestClass2*) R_ExternalPtrAddr(objptr);
+        return impl->combine(ptr->get_object_ptr());
     }
 
-    SEXP get_object()
-    {
-        SEXP val = PROTECT(R_MakeExternalPtr(&impl, R_NilValue, R_NilValue));
-        R_RegisterCFinalizerEx(val, null_finalizer, TRUE);
-        UNPROTECT(1);
+    // SEXP get_object()
+    // {
+    //     SEXP val = PROTECT(R_MakeExternalPtr(&impl, R_NilValue, R_NilValue));
+    //     R_RegisterCFinalizerEx(val, null_finalizer, TRUE);
+    //     UNPROTECT(1);
 
-        return val;
-    }
+    //     return val;
+    // }
 
 protected:
     std::shared_ptr<TestClass> get_object_ptr()
@@ -77,7 +78,8 @@ RCPP_MODULE(RTestClassModule2)
         .method("get_x", &ITestClass2::get_x, "get_x")
         .method("func1", &ITestClass2::func1, "func1")
         .method("combine", &ITestClass2::combine, "combine")
-        .method("get_object", &ITestClass2::get_object, "get_object");
+        // .method("get_object", &ITestClass2::get_object, "get_object")
+    ;
 }
 
 }
