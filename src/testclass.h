@@ -1,5 +1,6 @@
 #include <string>
 #include <cmath>
+#include <memory>
 #include <boost/date_time/gregorian/gregorian_types.hpp>
 
 using namespace boost::gregorian;
