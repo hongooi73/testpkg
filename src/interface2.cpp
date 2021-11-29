@@ -7,6 +7,11 @@
 
 using namespace Rcpp;
 
+static void null_finalizer(SEXP x)
+{
+    return;
+}
+
 namespace testpkg
 {
 
@@ -45,11 +50,13 @@ public:
         return impl->combine(sptr);
     }
 
-    // this might run into garbage collection issues
-    Rcpp::XPtr<TestClass> get_object()
+    SEXP get_object()
     {
-        Rcpp::XPtr<TestClass> ptr(impl.get(), true);
-        return ptr;
+        SEXP val = PROTECT(R_MakeExternalPtr(impl.get(), R_NilValue, R_NilValue));
+        R_RegisterCFinalizerEx(val, null_finalizer, TRUE);
+        UNPROTECT(1);
+
+        return val;
     }
 
 protected:
