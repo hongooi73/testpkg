@@ -43,11 +43,58 @@ public:
         return impl->func1(m);
     }
 
+    // we don't have to add any interfaces that shouldn't be exposed
+    // double func2(double y) {}
+
+    // adding complexity: vectorising an underlying method
+    NumericVector vec_func1(NumericVector m)
+    {
+        NumericVector out(m.length());
+
+        for(int i = 0; i < m.length(); ++i)
+        {
+            out[i] = impl->func1(m[i]);
+        }
+        return out;
+    }
+
+    // customising the inputs for a problematic method (too many args for Rcpp to handle)
+    double bigfunc(List argset1, List argset2, double a21, double a22, double a23, double a24, double a25)
+    {
+        return impl->bigfunc(
+            argset1["a1"],
+            argset1["a2"],
+            argset1["a3"],
+            argset1["a4"],
+            argset1["a5"],
+            argset1["a6"],
+            argset1["a7"],
+            argset1["a8"],
+            argset1["a9"],
+            argset1["a10"],
+            argset2["a11"],
+            argset2["a12"],
+            argset2["a13"],
+            argset2["a14"],
+            argset2["a15"],
+            argset2["a16"],
+            argset2["a17"],
+            argset2["a18"],
+            argset2["a19"],
+            argset2["a20"],
+            a21,
+            a22,
+            a23,
+            a24,
+            a25
+        );
+    }
+
     double combine(Environment obj)
     {
         SEXP objptr = obj[".pointer"];
         ITestClass2* ptr = (ITestClass2*) R_ExternalPtrAddr(objptr);
-        return impl->combine(ptr->get_object_ptr());
+        return impl->combine(ptr->get_implementation());
     }
 
     // SEXP get_object()
@@ -60,7 +107,7 @@ public:
     // }
 
 protected:
-    std::shared_ptr<TestClass> get_object_ptr()
+    std::shared_ptr<TestClass> get_implementation()
     {
         return impl;
     }
@@ -77,6 +124,8 @@ RCPP_MODULE(RTestClassModule2)
         .method("get_n", &ITestClass2::get_n, "get_n")
         .method("get_x", &ITestClass2::get_x, "get_x")
         .method("func1", &ITestClass2::func1, "func1")
+        .method("vec_func1", &ITestClass2::vec_func1, "vec_func1")
+        .method("bigfunc", &ITestClass2::bigfunc, "bigfunc")
         .method("combine", &ITestClass2::combine, "combine")
         // .method("get_object", &ITestClass2::get_object, "get_object")
     ;
