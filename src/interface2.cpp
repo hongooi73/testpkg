@@ -45,14 +45,13 @@ public:
 
     double combine(SEXP obj)
     {
-        TestClass* ptr = (TestClass*) R_ExternalPtrAddr(obj);
-        std::shared_ptr<TestClass> sptr(ptr);
-        return impl->combine(sptr);
+        std::shared_ptr<TestClass>* ptr = (std::shared_ptr<TestClass>*) R_ExternalPtrAddr(obj);
+        return impl->combine(*ptr);
     }
 
     SEXP get_object()
     {
-        SEXP val = PROTECT(R_MakeExternalPtr(impl.get(), R_NilValue, R_NilValue));
+        SEXP val = PROTECT(R_MakeExternalPtr(&impl, R_NilValue, R_NilValue));
         R_RegisterCFinalizerEx(val, null_finalizer, TRUE);
         UNPROTECT(1);
 
