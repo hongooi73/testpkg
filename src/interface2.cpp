@@ -19,9 +19,13 @@ namespace testpkg
 class ITestClass2
 {
 public:
-    ITestClass2(SEXP in_date, int const& in_n, double const& in_x)
-        : impl(std::make_shared<TestClass>(as_boost_date(in_date), in_n, in_x))
-    {}
+    ITestClass2(List args)
+    {
+        SEXP in_date = args[0];
+        int in_n = args[1];
+        double in_x = args[2];
+        impl = std::make_shared<TestClass>(as_boost_date(in_date), in_n, in_x);
+    }
 
     Date get_refdate()
     {
