@@ -2,6 +2,7 @@
 #include <Rcpp.h>
 #include "testclass.h"
 #include "dateconv.h"
+#include "extpointer.h"
 
 // [[Rcpp::depends(BH)]]
 
@@ -97,16 +98,14 @@ public:
     // taking another object as an argument
     double combine(Environment obj)
     {
-        SEXP objptr = obj.find(".pointer");
-        ITestClass* ptr = (ITestClass*) R_ExternalPtrAddr(objptr);
+        ITestClass* ptr = get_interface_pointer<ITestClass>(obj);
         return impl->combine(ptr->get_implementation());
     }
 
     // in-place updating
     void merge(Environment other)
     {
-        SEXP objptr = other.find(".pointer");
-        ITestClass* ptr = (ITestClass*) R_ExternalPtrAddr(objptr);
+        ITestClass* ptr = get_interface_pointer<ITestClass>(other);
         impl->merge(ptr->get_implementation());
     }
 
