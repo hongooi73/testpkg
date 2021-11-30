@@ -85,8 +85,8 @@ void TestClass::merge(std::shared_ptr<TestClass> other)
 
 std::shared_ptr<TestClass> TestClass::make_obj(int new_n, double new_x)
 {
-    std::shared_ptr<TestClass> new_obj = std::make_shared<TestClass>(refdate, new_n, new_x);
-    return new_obj;
+    date refdate(1970, 1, 1);
+    return std::make_shared<TestClass>(refdate, new_n, new_x);
 }
 
 }

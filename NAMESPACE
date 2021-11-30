@@ -2,5 +2,6 @@
 
 export(ITestClass)
 export(ITestClass2)
+export(test_class2)
 import(Rcpp)
 useDynLib(testpkg, .registration=TRUE)

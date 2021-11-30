@@ -22,6 +22,7 @@ public:
         impl = std::make_shared<TestClass>(as_boost_date(in_date), in_n, in_x);
     }
 
+    // not exposed to R, for internal communication only
     ITestClass2(std::shared_ptr<TestClass> impl)
         : impl(impl)
     {}
@@ -96,24 +97,23 @@ public:
     // taking another object as an argument
     double combine(Environment obj)
     {
-        SEXP objptr = obj[".pointer"];
+        SEXP objptr = obj.find(".pointer");
         ITestClass2* ptr = (ITestClass2*) R_ExternalPtrAddr(objptr);
         return impl->combine(ptr->get_implementation());
     }
 
-    // in-place updating: return self to allow method chaining
-    ITestClass2 merge(Environment other)
+    // in-place updating
+    void merge(Environment other)
     {
-        SEXP objptr = other[".pointer"];
+        SEXP objptr = other.find(".pointer");
         ITestClass2* ptr = (ITestClass2*) R_ExternalPtrAddr(objptr);
         impl->merge(ptr->get_implementation());
-        return *this;
     }
 
-    // returning a new object
+    // returning a new object from a static function
     ITestClass2 make_obj(int new_n, double new_x)
     {
-        std::shared_ptr<TestClass> new_impl(impl->make_obj(new_n, new_x));
+        std::shared_ptr<TestClass> new_impl(TestClass::make_obj(new_n, new_x));
         ITestClass2 new_obj(new_impl);
         return new_obj;
     }

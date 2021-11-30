@@ -53,7 +53,7 @@ public:
 
     void merge(std::shared_ptr<TestClass> other);
 
-    std::shared_ptr<TestClass> make_obj(int new_n, double new_x);
+    static std::shared_ptr<TestClass> make_obj(int new_n, double new_x);
 
 protected:
     date refdate;

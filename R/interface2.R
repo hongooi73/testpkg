@@ -1,5 +1,6 @@
 loadModule("RTestClassModule2", TRUE)
 
+#' @export
 test_class2 <- function(date, n, x)
 {
     date <- as.Date(date)
