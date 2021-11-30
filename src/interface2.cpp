@@ -22,6 +22,10 @@ public:
         impl = std::make_shared<TestClass>(as_boost_date(in_date), in_n, in_x);
     }
 
+    ITestClass2(std::shared_ptr<TestClass> impl)
+        : impl(impl)
+    {}
+
     Date get_refdate()
     {
         return as_rcpp_date(impl->get_refdate());
@@ -89,6 +93,7 @@ public:
         );
     }
 
+    // taking another object as an argument
     double combine(Environment obj)
     {
         SEXP objptr = obj[".pointer"];
@@ -96,11 +101,21 @@ public:
         return impl->combine(ptr->get_implementation());
     }
 
-    void merge(Environment other)
+    // in-place updating: return self to allow method chaining
+    ITestClass2 merge(Environment other)
     {
         SEXP objptr = other[".pointer"];
         ITestClass2* ptr = (ITestClass2*) R_ExternalPtrAddr(objptr);
         impl->merge(ptr->get_implementation());
+        return *this;
+    }
+
+    // returning a new object
+    ITestClass2 make_obj(int new_n, double new_x)
+    {
+        std::shared_ptr<TestClass> new_impl(impl->make_obj(new_n, new_x));
+        ITestClass2 new_obj(new_impl);
+        return new_obj;
     }
 
 protected:
@@ -125,7 +140,10 @@ RCPP_MODULE(RTestClassModule2)
         .method("bigfunc", &ITestClass2::bigfunc, "bigfunc")
         .method("combine", &ITestClass2::combine, "combine")
         .method("merge", &ITestClass2::merge, "merge")
+        .method("make_obj", &ITestClass2::make_obj, "make_obj")
     ;
 }
 
 }
+
+RCPP_EXPOSED_CLASS_NODECL(testpkg::ITestClass2)
