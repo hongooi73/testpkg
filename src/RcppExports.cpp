@@ -11,11 +11,9 @@ Rcpp::Rostream<false>& Rcpp::Rcerr = Rcpp::Rcpp_cerr_get();
 #endif
 
 
-RcppExport SEXP _rcpp_module_boot_RTestClassModule();
 RcppExport SEXP _rcpp_module_boot_RTestClassModule2();
 
 static const R_CallMethodDef CallEntries[] = {
-    {"_rcpp_module_boot_RTestClassModule", (DL_FUNC) &_rcpp_module_boot_RTestClassModule, 0},
     {"_rcpp_module_boot_RTestClassModule2", (DL_FUNC) &_rcpp_module_boot_RTestClassModule2, 0},
     {NULL, NULL, 0}
 };

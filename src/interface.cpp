@@ -10,11 +10,11 @@ using namespace Rcpp;
 namespace testpkg
 {
 
-//' @export ITestClass2
-class ITestClass2
+//' @export ITestClass
+class ITestClass
 {
 public:
-    ITestClass2(List args)
+    ITestClass(List args)
     {
         SEXP in_date = args[0];
         int in_n = args[1];
@@ -23,7 +23,7 @@ public:
     }
 
     // not exposed to R, for internal communication only
-    ITestClass2(std::shared_ptr<TestClass> impl)
+    ITestClass(std::shared_ptr<TestClass> impl)
         : impl(impl)
     {}
 
@@ -98,7 +98,7 @@ public:
     double combine(Environment obj)
     {
         SEXP objptr = obj.find(".pointer");
-        ITestClass2* ptr = (ITestClass2*) R_ExternalPtrAddr(objptr);
+        ITestClass* ptr = (ITestClass*) R_ExternalPtrAddr(objptr);
         return impl->combine(ptr->get_implementation());
     }
 
@@ -106,15 +106,15 @@ public:
     void merge(Environment other)
     {
         SEXP objptr = other.find(".pointer");
-        ITestClass2* ptr = (ITestClass2*) R_ExternalPtrAddr(objptr);
+        ITestClass* ptr = (ITestClass*) R_ExternalPtrAddr(objptr);
         impl->merge(ptr->get_implementation());
     }
 
     // returning a new object from a static function
-    ITestClass2 make_obj(int new_n, double new_x)
+    ITestClass make_obj(int new_n, double new_x)
     {
         std::shared_ptr<TestClass> new_impl(TestClass::make_obj(new_n, new_x));
-        ITestClass2 new_obj(new_impl);
+        ITestClass new_obj(new_impl);
         return new_obj;
     }
 
@@ -130,20 +130,20 @@ private:
 
 RCPP_MODULE(RTestClassModule2)
 {
-    class_<ITestClass2>("ITestClass2")
+    class_<ITestClass>("ITestClass")
         .constructor<List>()
-        .method("get_refdate", &ITestClass2::get_refdate, "get_refdate")
-        .method("get_n", &ITestClass2::get_n, "get_n")
-        .method("get_x", &ITestClass2::get_x, "get_x")
-        .method("func1", &ITestClass2::func1, "func1")
-        .method("vec_func1", &ITestClass2::vec_func1, "vec_func1")
-        .method("bigfunc", &ITestClass2::bigfunc, "bigfunc")
-        .method("combine", &ITestClass2::combine, "combine")
-        .method("merge", &ITestClass2::merge, "merge")
-        .method("make_obj", &ITestClass2::make_obj, "make_obj")
+        .method("get_refdate", &ITestClass::get_refdate, "get_refdate")
+        .method("get_n", &ITestClass::get_n, "get_n")
+        .method("get_x", &ITestClass::get_x, "get_x")
+        .method("func1", &ITestClass::func1, "func1")
+        .method("vec_func1", &ITestClass::vec_func1, "vec_func1")
+        .method("bigfunc", &ITestClass::bigfunc, "bigfunc")
+        .method("combine", &ITestClass::combine, "combine")
+        .method("merge", &ITestClass::merge, "merge")
+        .method("make_obj", &ITestClass::make_obj, "make_obj")
     ;
 }
 
 }
 
-RCPP_EXPOSED_CLASS_NODECL(testpkg::ITestClass2)
+RCPP_EXPOSED_CLASS_NODECL(testpkg::ITestClass)

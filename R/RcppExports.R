@@ -4,6 +4,3 @@
 #' @export ITestClass
 NULL
 
-#' @export ITestClass2
-NULL
-
