@@ -7,11 +7,6 @@
 
 using namespace Rcpp;
 
-// static void null_finalizer(SEXP x)
-// {
-//     return;
-// }
-
 namespace testpkg
 {
 
@@ -62,35 +57,35 @@ public:
         return out;
     }
 
-    // customising the inputs for a problematic method (too many args for Rcpp to handle)
-    double bigfunc(List argset1, List argset2, double a21, double a22, double a23, double a24, double a25)
+    // inputs for a problematic method (too many args for Rcpp to handle)
+    double bigfunc(List argset)
     {
         return impl->bigfunc(
-            argset1["a1"],
-            argset1["a2"],
-            argset1["a3"],
-            argset1["a4"],
-            argset1["a5"],
-            argset1["a6"],
-            argset1["a7"],
-            argset1["a8"],
-            argset1["a9"],
-            argset1["a10"],
-            argset2["a11"],
-            argset2["a12"],
-            argset2["a13"],
-            argset2["a14"],
-            argset2["a15"],
-            argset2["a16"],
-            argset2["a17"],
-            argset2["a18"],
-            argset2["a19"],
-            argset2["a20"],
-            a21,
-            a22,
-            a23,
-            a24,
-            a25
+            argset["a1"],
+            argset["a2"],
+            argset["a3"],
+            argset["a4"],
+            argset["a5"],
+            argset["a6"],
+            argset["a7"],
+            argset["a8"],
+            argset["a9"],
+            argset["a10"],
+            argset["a11"],
+            argset["a12"],
+            argset["a13"],
+            argset["a14"],
+            argset["a15"],
+            argset["a16"],
+            argset["a17"],
+            argset["a18"],
+            argset["a19"],
+            argset["a20"],
+            argset["a21"],
+            argset["a22"],
+            argset["a23"],
+            argset["a24"],
+            argset["a25"]
         );
     }
 
@@ -101,14 +96,12 @@ public:
         return impl->combine(ptr->get_implementation());
     }
 
-    // SEXP get_object()
-    // {
-    //     SEXP val = PROTECT(R_MakeExternalPtr(&impl, R_NilValue, R_NilValue));
-    //     R_RegisterCFinalizerEx(val, null_finalizer, TRUE);
-    //     UNPROTECT(1);
-
-    //     return val;
-    // }
+    void merge(Environment other)
+    {
+        SEXP objptr = other[".pointer"];
+        ITestClass2* ptr = (ITestClass2*) R_ExternalPtrAddr(objptr);
+        impl->merge(ptr->get_implementation());
+    }
 
 protected:
     std::shared_ptr<TestClass> get_implementation()
@@ -123,7 +116,7 @@ private:
 RCPP_MODULE(RTestClassModule2)
 {
     class_<ITestClass2>("ITestClass2")
-        .constructor<SEXP, int, double>()
+        .constructor<List>()
         .method("get_refdate", &ITestClass2::get_refdate, "get_refdate")
         .method("get_n", &ITestClass2::get_n, "get_n")
         .method("get_x", &ITestClass2::get_x, "get_x")
@@ -131,7 +124,7 @@ RCPP_MODULE(RTestClassModule2)
         .method("vec_func1", &ITestClass2::vec_func1, "vec_func1")
         .method("bigfunc", &ITestClass2::bigfunc, "bigfunc")
         .method("combine", &ITestClass2::combine, "combine")
-        // .method("get_object", &ITestClass2::get_object, "get_object")
+        .method("merge", &ITestClass2::merge, "merge")
     ;
 }
 

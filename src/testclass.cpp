@@ -1,7 +1,3 @@
-#include <string>
-#include <cmath>
-#include <boost/date_time/gregorian/gregorian_types.hpp>
-
 #include "testclass.h"
 
 using namespace boost::gregorian;
@@ -75,6 +71,22 @@ double TestClass::bigfunc(
 double TestClass::combine(std::shared_ptr<TestClass> obj) const
 {
     return x + obj->get_x();
+}
+
+void TestClass::merge(std::shared_ptr<TestClass> other)
+{
+    if(refdate < other->get_refdate())
+    {
+        refdate = other->get_refdate();
+    }
+    n = n + other->get_n();
+    x = x * other->get_x();
+}
+
+std::shared_ptr<TestClass> TestClass::make_obj(int new_n, double new_x)
+{
+    std::shared_ptr<TestClass> new_obj = std::make_shared<TestClass>(refdate, new_n, new_x);
+    return new_obj;
 }
 
 }

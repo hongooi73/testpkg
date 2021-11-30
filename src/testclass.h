@@ -1,4 +1,3 @@
-#include <string>
 #include <cmath>
 #include <memory>
 #include <boost/date_time/gregorian/gregorian_types.hpp>
@@ -51,6 +50,10 @@ public:
     ) const;
 
     double combine(std::shared_ptr<TestClass> obj) const;
+
+    void merge(std::shared_ptr<TestClass> other);
+
+    std::shared_ptr<TestClass> make_obj(int new_n, double new_x);
 
 protected:
     date refdate;
