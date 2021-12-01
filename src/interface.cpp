@@ -96,16 +96,16 @@ public:
     }
 
     // taking another object as an argument
-    double combine(Environment obj)
+    double combine(RObject obj)
     {
-        ITestClass* ptr = get_interface_pointer<ITestClass>(obj);
+        ITestClass* ptr = get_interface_pointer<ITestClass>(obj, rcpp_name);
         return impl->combine(ptr->get_implementation());
     }
 
     // in-place updating
-    void merge(Environment other)
+    void merge(RObject other)
     {
-        ITestClass* ptr = get_interface_pointer<ITestClass>(other);
+        ITestClass* ptr = get_interface_pointer<ITestClass>(other, rcpp_name);
         impl->merge(ptr->get_implementation());
     }
 
@@ -125,6 +125,8 @@ protected:
 
 private:
     std::shared_ptr<TestClass> impl;
+
+    static constexpr const char* rcpp_name = "Rcpp_ITestClass";
 };
 
 RCPP_MODULE(RTestClassModule2)
