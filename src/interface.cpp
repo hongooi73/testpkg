@@ -64,48 +64,53 @@ public:
     }
 
     // inputs for a problematic method (too many args for Rcpp to handle)
-    double bigfunc(List argset)
+    double bigfunc(List arglist)
     {
+        if(arglist.length() != 25)
+        {
+            stop("incorrect number of arguments");
+        }
+        // TODO: check all arg types
         return impl->bigfunc(
-            argset["a1"],
-            argset["a2"],
-            argset["a3"],
-            argset["a4"],
-            argset["a5"],
-            argset["a6"],
-            argset["a7"],
-            argset["a8"],
-            argset["a9"],
-            argset["a10"],
-            argset["a11"],
-            argset["a12"],
-            argset["a13"],
-            argset["a14"],
-            argset["a15"],
-            argset["a16"],
-            argset["a17"],
-            argset["a18"],
-            argset["a19"],
-            argset["a20"],
-            argset["a21"],
-            argset["a22"],
-            argset["a23"],
-            argset["a24"],
-            argset["a25"]
+            arglist[0],
+            arglist[1],
+            arglist[2],
+            arglist[3],
+            arglist[4],
+            arglist[5],
+            arglist[6],
+            arglist[7],
+            arglist[8],
+            arglist[9],
+            arglist[10],
+            arglist[11],
+            arglist[12],
+            arglist[13],
+            arglist[14],
+            arglist[15],
+            arglist[16],
+            arglist[17],
+            arglist[18],
+            arglist[19],
+            arglist[20],
+            arglist[21],
+            arglist[22],
+            arglist[23],
+            arglist[24]
         );
     }
 
     // taking another object as an argument
     double combine(RObject obj)
     {
-        ITestClass* ptr = get_interface_pointer<ITestClass>(obj, rcpp_name);
+        ITestClass* ptr = get_interface_pointer<ITestClass>(obj, "Rcpp_ITestClass");
         return impl->combine(ptr->get_implementation());
     }
 
     // in-place updating
     void merge(RObject other)
     {
-        ITestClass* ptr = get_interface_pointer<ITestClass>(other, rcpp_name);
+        ITestClass* ptr = get_interface_pointer<ITestClass>(other, "Rcpp_ITestClass");
         impl->merge(ptr->get_implementation());
     }
 
@@ -125,8 +130,6 @@ protected:
 
 private:
     std::shared_ptr<TestClass> impl;
-
-    static constexpr const char* rcpp_name = "Rcpp_ITestClass";
 };
 
 RCPP_MODULE(RTestClassModule2)
