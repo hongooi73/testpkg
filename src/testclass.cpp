@@ -34,6 +34,11 @@ double TestClass::func2(double y) const
     return x * y;
 }
 
+bool TestClass::compare_date(date newdate)
+{
+    return newdate > refdate;
+}
+
 double TestClass::bigfunc(
     double a1,
     double a2,

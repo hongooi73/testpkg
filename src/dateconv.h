@@ -9,8 +9,13 @@ inline SEXP as_rcpp_date(const boost::gregorian::date &d)
     return Rcpp::wrap(Rcpp::Date(ymd.year, ymd.month, ymd.day));
 }
 
-inline boost::gregorian::date as_boost_date(SEXP dtsexp)
+inline boost::gregorian::date as_boost_date(RObject obj)
 {
-    Rcpp::Date dt(dtsexp);
+    if(!obj.inherits("Date"))
+    {
+        stop(std::string("not a Date object"));
+    }
+
+    Rcpp::Date dt(obj);
     return boost::gregorian::date(dt.getYear(), dt.getMonth(), dt.getDay());
 }

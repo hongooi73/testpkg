@@ -17,7 +17,7 @@ class ITestClass
 public:
     ITestClass(List args)
     {
-        SEXP in_date = args[0];
+        RObject in_date = args[0];
         int in_n = args[1];
         double in_x = args[2];
         impl = std::make_shared<TestClass>(as_boost_date(in_date), in_n, in_x);
@@ -46,6 +46,11 @@ public:
     int func1(int m)
     {
         return impl->func1(m);
+    }
+
+    bool compare_date(RObject newdate)
+    {
+        return impl->compare_date(as_boost_date(newdate));
     }
 
     // we don't have to add any interfaces that shouldn't be exposed
@@ -140,6 +145,7 @@ RCPP_MODULE(RTestClassModule2)
         .method("get_n", &ITestClass::get_n, "get_n")
         .method("get_x", &ITestClass::get_x, "get_x")
         .method("func1", &ITestClass::func1, "func1")
+        .method("compare_date", &ITestClass::compare_date, "compare_date")
         .method("vec_func1", &ITestClass::vec_func1, "vec_func1")
         .method("bigfunc", &ITestClass::bigfunc, "bigfunc")
         .method("combine", &ITestClass::combine, "combine")

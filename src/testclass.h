@@ -21,6 +21,8 @@ public:
 
     double func2(double y) const;
 
+    bool compare_date(date newdate);
+
     double bigfunc(
         double a1,
         double a2,
